@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="edu.eci.pdsw.samples.persistence.mybatisimpl.mappers.ConsultaMapper">
+
+    <resultMap type='Consulta' id='ConsultaResult'>
+        <id property='id' column='idCONSULTAS'/>        
+        <result property='fecha_y_hora' column='fecha_y_hora'/>
+        <result property='resumen' column='resumen'/>
+        <result property='idPaciente' column='PACIENTES_id'/>
+        <result property='tipo_id' column='PACIENTES_tipo_id'/>
+    </resultMap>
+
+    <select parameterType="map" id="consultarConsultas" resultMap="ConsultaResult">
+        select 
+            c.idCONSULTAS,
+            c.fecha_y_hora,
+            c.resumen,
+            c.PACIENTES_id,
+            c.PACIENTES_tipo_id
+        from 
+            CONSULTAS as c 
+    </select>
+</mapper>

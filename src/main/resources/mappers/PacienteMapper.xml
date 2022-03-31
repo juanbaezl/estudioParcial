@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="edu.eci.pdsw.samples.persistence.mybatisimpl.mappers.PacienteMapper">
+
+    <resultMap type='Paciente' id='PacienteResult'>
+        <id property='id' column='id'/>        
+        <id property='tipo_id' column='tipo_id' typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result property='fechaNacimiento' column='fecha_nacimiento'/>
+        <result property='nombre' column='nombre'/>
+        <collection property="consultas" ofType="Consulta" resultMap="edu.eci.pdsw.samples.persistence.mybatisimpl.mappers.ConsultaMapper.ConsultaResult" columnPrefix="c"></collection>
+    </resultMap>
+
+    <select id="getPacientes" resultMap="PacienteResult">
+        SELECT
+            p.id,
+            p.tipo_id,
+            p.fecha_nacimiento,
+            p.nombre,
+            c.idCONSULTAS,
+            c.fecha_y_hora,
+            c.resumen
+        FROM
+            PACIENTES as p
+        left join
+            CONSULTAS as c on p.id=c.PACIENTES_id and p.tipo_id=c.PACIENTES_tipo_id
+    </select>
+
+    <select parameterType="map" id="consultarPaciente" resultMap="PacienteResult">
+        select 
+            p.nombre,
+            p.fecha_nacimiento,
+            p.tipo_id
+        from 
+            PACIENTES as p 
+        where 
+            p.id=#{id} and p.tipo_id=#{tipo_id}       
+    </select>
+</mapper>
